@@ -5,11 +5,8 @@ Par Guillaume Lemieux 402
 
 import arcade
 from random import randint
-import attack_animation
 from game_state import GameState
-from attack_animation import AttackType
-from attack_animation import AttackAnimation
-from pyglet.event import EVENT_HANDLE_STATE
+from attack_animation import AttackType, AttackAnimation
 
 SCREEN_WIDTH = 1100
 SCREEN_HEIGHT = 900
@@ -40,12 +37,15 @@ class MyGame(arcade.Window):
         #object_list est la liste pour les images de roches papiers et ciseaux
         self.object_list = arcade.SpriteList()
         self.SCISSORS = arcade.Sprite("assets/scissors.png")
+        self.SCISSORS = AttackAnimation(AttackType.SCISSORS)
         self.SCISSORS.center_x = width / 8
         self.SCISSORS.center_y = height / 3
         self.PAPER = arcade.Sprite("assets/spaper.png")
+        self.PAPER = AttackAnimation(AttackType.PAPER)
         self.PAPER.center_x = width / 3.7
         self.PAPER.center_y = height / 3
         self.ROCK = arcade.Sprite("assets/srock.png")
+        self.ROCK = AttackAnimation(AttackType.ROCK)
         self.ROCK.center_x = width / 2.5
         self.ROCK.center_y = height / 3
         self.object_list.append(self.SCISSORS)
@@ -55,12 +55,15 @@ class MyGame(arcade.Window):
         #object_list_pc pour l'image du choix de l'ordi
         self.object_list_pc = arcade.SpriteList()
         self.SCISSORS_pc = arcade.Sprite("assets/scissors.png")
+        self.SCISSORS_pc = AttackAnimation(AttackType.SCISSORS_pc)
         self.SCISSORS_pc.center_x = (width / 2) + (width / 4)
         self.SCISSORS_pc.center_y = height / 3
         self.PAPER_pc = arcade.Sprite("assets/spaper.png")
+        self.PAPER_pc = AttackAnimation(AttackType.PAPER_pc)
         self.PAPER_pc.center_x = (width / 2) + (width / 4)
         self.PAPER_pc.center_y = height / 3
         self.ROCK_pc = arcade.Sprite("assets/srock.png")
+        self.ROCK_pc = AttackAnimation(AttackType.ROCK_pc)
         self.ROCK_pc.center_x = (width / 2) + (width / 4)
         self.ROCK_pc.center_y = height / 3
 
@@ -130,6 +133,12 @@ class MyGame(arcade.Window):
                 text_pc_win_game.draw()
 
     def on_update(self, delta_time):
+        self.ROCK.on_update(delta_time)
+        self.SCISSORS.on_update(delta_time)
+        self.PAPER.on_update(delta_time)
+        self.ROCK_pc.on_update(delta_time)
+        self.SCISSORS_pc.on_update(delta_time)
+        self.PAPER_pc.on_update(delta_time)
 
         if self.player_attack_selected and self.game_state == GameState.ROUND_ACTIVE:
             self.pc_attack = randint(0, 2)
